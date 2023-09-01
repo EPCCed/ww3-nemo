@@ -1,0 +1,73 @@
+###############################################################################
+#
+# CHAN : MPI1/MPI2
+CHAN            = MPI1
+#
+# Paths for libraries, object files and binaries
+#
+# COUPLE	: path for oasis3-mct main directory
+COUPLE          = COUPLETEMPLATE
+#
+# ARCHDIR       : directory created when compiling
+ARCHDIR         =  ARCHTEMPLATE
+#
+# MPI library
+MPIDIR      = ${MPICH_DIR} 
+MPIBIN      = $(MPICH_DIR)/bin
+MPI_INCLUDE = $(MPICH_DIR)/include
+MPILIB      = -L$(MPICH_DIR)/lib
+#
+# NETCDF library
+NETCDF_INCLUDE  = $(NETCDF_DIR)/include
+NETCDF_LIBRARY  = -L$(NETCDF_DIR)/lib -lnetcdff -lnetcdf
+#
+
+# Compiling and other commands
+MAKE        = make
+F90         = ftn 
+F           = $(F90)
+f90         = $(F90)
+f           = $(F90)
+CC          = cc
+LD          = ftn
+AR          = ar
+ARFLAGS     = -ruv
+#
+# compiler options and cpp keys
+# 
+#CPPDEF    = -Duse_netCDF -Duse_comm_$(CHAN) -D__VERBOSE -DTREAT_OVERLAY
+
+CPPDEF    = -Duse_libMPI -Duse_netCDF -Duse_comm_$(CHAN) -DDEBUG
+CCPPDEF   = -Duse_libMPI -Duse_netCDF -Duse_comm_$(CHAN) -DDEBUG 
+
+#
+# -g is necessary in F90FLAGS and LDFLAGS for pgf90 versions lower than 6.1
+# 
+
+F90FLAGS_1  = -cpp -g -fdefault-real-8 -fdefault-double-8 -ffree-line-length-0 -fallow-argument-mismatch -Wno-error -O2 $(PSMILE_INCDIR) $(CPPDEF)
+f90FLAGS_1  = $(F90FLAGS_1)
+FFLAGS_1    = $(F90FLAGS_1)
+fFLAGS_1    = $(F90FLAGS_1)
+CCFLAGS_1   = $(PSMILE_INCDIR) $(CPPDEF) 
+LDFLAGS   =  -h byteswapio 
+#
+###################
+#
+# Additional definitions that should not be changed
+#
+FLIBS		= $(NETCDF_LIBRARY)
+# BINDIR        : directory for executables
+BINDIR          = $(ARCHDIR)/bin
+# LIBBUILD      : contains a directory for each library
+LIBBUILD        = $(ARCHDIR)/build/lib
+# INCPSMILE     : includes all *o and *mod for each library
+INCPSMILE       = -I$(LIBBUILD)/psmile.$(CHAN) -I$(LIBBUILD)/scrip  -I$(LIBBUILD)/mct 
+
+F90FLAGS  = $(F90FLAGS_1) $(INCPSMILE) $(CPPDEF) 
+f90FLAGS  = $(f90FLAGS_1) $(INCPSMILE) $(CPPDEF) 
+FFLAGS    = $(FFLAGS_1) $(INCPSMILE) $(CPPDEF) 
+fFLAGS    = $(fFLAGS_1) $(INCPSMILE) $(CPPDEF) 
+CCFLAGS   = $(CCFLAGS_1) $(INCPSMILE) $(CPPDEF) 	
+#
+#
+#############################################################################
