@@ -7,10 +7,6 @@ set -e
 # Require: the Makefile fragment which is the configuration for compiler
 #          options etc. AKA the "arch file"
 #
-# In this script:
-#  1. Set the PrgEnv
-#  2. Set arch_id of the arch file; assumed to be in ./arch/oasis3-mct
-#
 # Overview:
 #  0. Download git
 #  1. Set the relevant locations in the arch file for install etc
@@ -26,19 +22,10 @@ if [ ! -d ./oasis3-mct ]; then
   git clone https://gitlab.com/cerfacs/oasis3-mct.git
 fi
 
-module load PrgEnv-cray
-module load cray-hdf5-parallel
-module load cray-netcdf-hdf5parallel
+source ./build-env.sh
 module list
 
-# copy the template arch file and sed out the dummy paths
-# Set arch_id appropriately
-# "archer2-gnu"        is the default precision for Gnu GCC
-# "archer2-gnu-r8-d8"  adds "-fdefault-real-8 -fdefault-double-8"
-# "archer2-cce"        Cray CCE default precision
-# "archer2-cce-r8"     Cray CCE adds "-sreal64"
-
-arch_id="archer2-cce-r8"
+arch_id="${build_env_arch_id}"
 arch_file="${ROOT_DIR}/oasis3-mct/util/make_dir/make.${arch_id}"
 
 cp ${ROOT_DIR}/arch/oasis3-mct/make.${arch_id} ${arch_file}

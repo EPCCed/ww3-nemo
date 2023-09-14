@@ -20,11 +20,9 @@ if [ ! -d ./ww3 ]; then
   cp arch/ww3/switch_archer2 ww3/model/bin
 fi
 
-module load PrgEnv-gnu
-module load cray-hdf5-parallel
-module load cray-netcdf-hdf5parallel
-
-arch_id="archer2-gnu-r8-d8"
+source ./build-env.sh
+module list
+arch_id="${build_env_arch_id}"
 
 # cmake requires oasis location to come from environment
 

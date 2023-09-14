@@ -28,19 +28,9 @@ AMM15 OCE
 EOF
 fi
 
-module load PrgEnv-gnu
-module load cray-hdf5-parallel
-module load cray-netcdf-hdf5parallel
+source ./build-env.sh
 module list
-
-# copy the template arch file and sed out the dummy paths
-# Set arch_id appropriately
-# "archer2-gnu"        is the default precision for Gnu GCC       FAILING
-# "archer2-gnu-r8-d8"  adds "-fdefault-real-8 -fdefault-double-8" WORKING
-# "archer2-cce"        Cray CCE default precision                 FAILING
-# "archer2-cce-r8"     Cray CCE adds "-sreal64"                   FAILING
-
-arch_id="archer2-gnu-r8-d8"
+arch_id="${build_env_arch_id}"
 arch_file=nemo-r4.0.4/arch/arch-${arch_id}.fcm
 
 # Copy the architecture file and add the correct dependency locations
