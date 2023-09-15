@@ -81,7 +81,7 @@ coordinates.bdy_baltic.nc                                       link
 ```
 Files labeled 'link' are from `/work/n01/shared/Q2159088/Runfiles`
 
-With the files above X, one should reach the point of a controlled
+With the files above `rivers.nc`, one should reach the point of a controlled
 NEMO exit with
 ```
  STOP
